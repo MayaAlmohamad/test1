@@ -1,37 +1,65 @@
-﻿@model List<MvcTodoApp.Models.TaskItem>
+@model List<MvcTodoApp.Models.TaskItem>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <title>تطبيق المهام اليومية - MVC</title>
-</head>
-<body>
-    <h1>قائمة المهام اليومية</h1>
-    <ul>
+<h2>قائمة المهام</h2>
+
+<!-- نموذج إضافة مهمة جديدة -->
+<form asp-action="AddTask" method="post">
+    <input type="text" name="title" placeholder="اكتب عنوان المهمة" required />
+    <button type="submit">أضف مهمة</button>
+</form>
+
+<hr />
+
+<table border="1" cellpadding="8" cellspacing="0" style="width:100%">
+    <thead>
+        <tr>
+            <th>العنوان</th>
+            <th>مكتملة؟</th>
+            <th>الإجراءات</th>
+            <th>تعديل المهمة</th>
+        </tr>
+    </thead>
+    <tbody>
         @foreach (var task in Model)
         {
-            <li>
-                @if(task.IsComplete)
-                {
-                    <s>@task.Title</s>
-                }
-                else
-                {
-                    @task.Title
-                    <form method="post" asp-action="CompleteTask" style="display:inline;">
+            <tr>
+                <td>@task.Title</td>
+                <td>@(task.IsComplete ? "نعم" : "لا")</td>
+                <td>
+                    @if (!task.IsComplete)
+                    {
+                        <form asp-action="CompleteTask" method="post" style="display:inline;">
+                            <input type="hidden" name="id" value="@task.Id" />
+                            <button type="submit">وضع كمكتملة</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <span>✓ مكتملة</span>
+                    }
+                </td>
+                <td>
+                    <!-- نموذج تعديل المهمة -->
+                    <form asp-action="EditTask" method="post">
                         <input type="hidden" name="id" value="@task.Id" />
-                        <button type="submit">اكتملت</button>
+                        <input type="text" name="newTitle" value="@task.Title" required />
+                        <label>
+                            مكتملة؟
+                            <input type="checkbox" name="isComplete" value="true" @(task.IsComplete ? "checked" : "") />
+                        </label>
+                        <button type="submit">تحديث</button>
                     </form>
-
-                }
-            </li>
+                </td>
+            </tr>
         }
-    </ul>
-
-    <form method="post" asp-action="AddTask">
-        <input type="text" name="title" placeholder="أضف مهمة جديدة" />
+    </tbody>
+</table>
         <button type="submit">إضافة</button>
     </form>
 </body>
 </html>
+عند إضافة مهمة جديدة، نملأ العنوان ونضغط "أضف مهمة".
+
+لكل مهمة غير مكتملة، في زر "وضع كمكتملة".
+
+تحت عمود "تعديل المهمة" في نموذج يمكن تحديث العنوان وتغيير حالة المكتملة ثم الضغط "تحديث".
