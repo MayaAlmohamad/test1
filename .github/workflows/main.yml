@@ -17,8 +17,8 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore MvcTodoApp_SV/MvcTodoApp.csproj
 
-    - name: حذف مجلد MvcTodoApp في bin الذي يسبب التعارض
-      run: rm -rf MvcTodoApp_SV/bin/Debug/net9.0/MvcTodoApp
+    - name: حذف مجلد bin/Debug بالكامل لحل تعارض البناء
+      run: rm -rf MvcTodoApp_SV/bin/Debug
 
     - name: Build
       run: dotnet build MvcTodoApp_SV/MvcTodoApp.csproj --no-restore
