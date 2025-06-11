@@ -15,10 +15,10 @@ jobs:
         dotnet-version: 9.0.x
 
     - name: Restore dependencies
-      run: dotnet restore MvcTodoApp-SV/MvcTodoApp.csproj
+      run: dotnet restore MvcTodoApp_SV/MvcTodoApp.csproj
 
     - name: Build
-      run: dotnet build MvcTodoApp-SV/MvcTodoApp.csproj --no-restore
+      run: dotnet build MvcTodoApp_SV/MvcTodoApp.csproj --no-restore
 
     - name: Test
-      run: dotnet test MvcTodoApp-SV/MvcTodoApp.csproj --no-build --verbosity normal
+      run: dotnet test MvcTodoApp-_V/MvcTodoApp.csproj --no-build --verbosity normal
